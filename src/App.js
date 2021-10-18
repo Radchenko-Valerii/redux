@@ -1,24 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import Counter from './counter';
+
+
+const initialState ={ 
+  count: 0,
+  value: 1
+}
+
+function reducer(state=initialState, action){
+  switch(action.type){
+    case 'increment': {
+      const newState={
+        ...state,
+        count: state.count + state.value
+      }
+      return newState;
+    }
+    case 'decrement': {
+      const newState={
+        ...state,
+        count: state.count - state.value
+      }
+    return newState;
+  }
+  case 'changeValue': {
+    const newState={
+      ...state,
+      value: action.value
+    }
+    return newState;
+}
+
+    default: return state;
+  }
+  
+}
+
+const store = createStore(reducer)
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Counter />
+    </Provider>
+    
   );
 }
 
